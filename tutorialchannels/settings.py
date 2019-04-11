@@ -25,7 +25,9 @@ SECRET_KEY = 'vhuske6(xvgo$p4adz!l=*ebw8=7%#r#9c$10gedno5n&uyme6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.1.55',
+]
 
 
 # Application definition
