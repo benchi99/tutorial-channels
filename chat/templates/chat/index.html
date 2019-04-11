@@ -1,27 +1,69 @@
 <!-- chat/templates/chat/index.html -->
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Rooms</title>
-</head>
-<body>
-    What chat room would you like to enter?<br/>
-    <input id="room-name-input" type="text" size="100"/><br/>
-    <input id="room-name-submit" type="button" value="Enter"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Chat Rooms</title>
+    </head>
 
-    <script>
-        document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
+    <body>
+        <h1>CHAT APPLICATION</h1>
 
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
-    </script>
-</body>
+        <table align="center">
+            <tr>
+                <td>What chat room would you like to enter?</td>
+                <td>
+                    <input id="room-name-input" type="text" size="100"/>
+                </td>
+            </tr>
+            <tr>
+                <td>What username would you like to use?</td>
+                <td>
+                    <input id="room-username-input" type="text" size="100"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input id="room-name-submit" type="button" value="Enter" align="right"/>
+                </td>
+            </tr>
+        </table>
+
+        <script>
+            document.querySelector('#room-name-input').focus();
+            document.querySelector('#room-username-input').onkeyup = function(e) {
+                if (e.keyCode === 13) {  // enter, return
+                    document.querySelector('#room-name-submit').click();
+                }
+            };
+
+            document.querySelector('#room-name-submit').onclick = function(e) {
+                var roomName = document.querySelector('#room-name-input').value;
+                var userName = document.querySelector('#room-username-input').value;
+                //window.location.pathname = '/chat/' + roomName + '/';
+                
+                var peepeesuck =  document.createElement('form');
+                var user = document.createElement('input');
+                var csrftoken = document.createElement('input');
+
+                peepeesuck.action = "/chat/" + roomName + "/";
+                peepeesuck.method = "POST";
+
+                user.type = "hidden";
+                user.name = "user";
+                user.value = userName;
+
+                csrftoken.type = "hidden";
+                csrftoken.name = "csrfmiddlewaretoken";
+                csrftoken.value = '{{ csrf_token }}';
+
+                peepeesuck.appendChild(user);
+                peepeesuck.appendChild(csrftoken);
+
+                document.body.appendChild(peepeesuck);
+
+                peepeesuck.submit();
+            };
+        </script>
+    </body>
 </html>

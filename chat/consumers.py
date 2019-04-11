@@ -1,4 +1,4 @@
-from channels.generic.websocket import AsyncWebsocketConsumer # Tutorial Parte 2 WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer  # Tutorial Parte 2 WebsocketConsumer
 import json
 
 
@@ -61,6 +61,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.user_name = self.scope['url_route']['kwargs']['user_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
         # Entrar en sala
@@ -88,15 +89,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
+                'user': self.user_name,
                 'message': message
             }
         )
 
     # Recibir mensaje de la sala
     async def chat_message(self, event):
+        user = event['user']
         message = event['message']
 
         # Enviar mensaje a WebSocket
         await self.send(text_data=json.dumps({
+            'user': user,
             'message': message
         }))

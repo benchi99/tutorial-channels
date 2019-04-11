@@ -8,6 +8,9 @@ def index(request):
 
 
 def room(request, room_name):
+    user = request.POST.get('user')
+
     return render(request, 'chat/room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name))
+        'room_name_json': mark_safe(json.dumps(room_name)),
+        'user_name_json': mark_safe(json.dumps(user))
     })
