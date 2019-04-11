@@ -1,0 +1,8 @@
+# GITIGNORE TUTORIAL CHANNELS
+
+# Directories
+/.idea/
+/channelvenv/
+
+# Files
+*.sqlite3
